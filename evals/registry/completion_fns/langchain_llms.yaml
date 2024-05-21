@@ -25,3 +25,21 @@ langchain/chat_model/gpt-3.5-turbo:
     llm: ChatOpenAI
     llm_kwargs:
       model_name: gpt-3.5-turbo
+
+llama/3-8b:
+  class: evals.completion_fns.llama:HFPipelineCompletionFn
+  args:
+    model_name: meta-llama/Meta-Llama-3-8B-Instruct
+    kwargs:
+      quantization: true
+      use_fast_kernels: false
+
+      max_new_tokens: 200
+      do_sample: true
+      top_p: 1.0
+      temperature: 1.0
+      min_length: None
+      use_cache: false
+      top_k: 50
+      repetition_penalty: 1.0
+      length_penalty: 1
