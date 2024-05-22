@@ -44,3 +44,9 @@ steganography.taskonly:
   args:
     samples_jsonl: steganography/samples.jsonl
     prompt_version: "taskonly"
+
+steganography.scratch_short:
+  class: evals.elsuite.steganography.eval:Steganography
+  args:
+    samples_jsonl: steganography/samples-short.jsonl
+    prompt_version: "scratch"
