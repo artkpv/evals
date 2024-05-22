@@ -27,19 +27,39 @@ langchain/chat_model/gpt-3.5-turbo:
       model_name: gpt-3.5-turbo
 
 llama/3-8b:
-  class: evals.completion_fns.llama:HFPipelineCompletionFn
+  class: evals.completion_fns.llama:LlamaCompletionFn
   args:
-    model_name: meta-llama/Meta-Llama-3-8B-Instruct
-    kwargs:
-      quantization: true
+    llm: meta-llama/Meta-Llama-3-8B-Instruct
+    llm_kwargs:
+      load_in_8bit: true
+      load_in_4bit: false
       use_fast_kernels: false
+      gen_kwargs:
+        max_new_tokens: 200
+        do_sample: true
+        top_p: 1.0
+        temperature: 1.0
+        min_length: null
+        use_cache: false
+        top_k: 50
+        repetition_penalty: 1.0
+        length_penalty: 1
 
-      max_new_tokens: 200
-      do_sample: true
-      top_p: 1.0
-      temperature: 1.0
-      min_length: None
-      use_cache: false
-      top_k: 50
-      repetition_penalty: 1.0
-      length_penalty: 1
+llama/3-70b:
+  class: evals.completion_fns.llama:LlamaCompletionFn
+  args:
+    llm: meta-llama/Meta-Llama-3-70B-Instruct
+    llm_kwargs:
+      load_in_8bit: false
+      load_in_4bit: true
+      use_fast_kernels: false
+      gen_kwargs:
+        max_new_tokens: 200
+        do_sample: true
+        top_p: 1.0
+        temperature: 1.0
+        min_length: null
+        use_cache: false
+        top_k: 50
+        repetition_penalty: 1.0
+        length_penalty: 1
