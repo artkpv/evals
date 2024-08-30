@@ -11,6 +11,7 @@ from langchain.schema.messages import (
     HumanMessage,
     SystemMessage,
 )
+from langchain.chat_models import init_chat_model
 
 from evals.api import CompletionFn, CompletionResult
 from evals.prompt.base import CompletionPrompt, is_chat_prompt
@@ -78,6 +79,25 @@ class LangChainChatModelCompletionFn(CompletionFn):
             self.llm = LLMClass(**chat_model_kwargs)
         else:
             raise ValueError(f"{llm} is not a subclass of BaseChatModel")
+
+    def __call__(self, prompt, **kwargs) -> LangChainLLMCompletionResult:
+        if is_chat_prompt(prompt):
+            messages = [_convert_dict_to_langchain_message(message) for message in prompt]
+        else:
+            messages = [HumanMessage(content=prompt)]
+        response = self.llm(messages).content
+        record_sampling(prompt=prompt, sampled=response)
+        return LangChainLLMCompletionResult(response)
+
+
+class LangChainAnyChatModelCompletionFn(CompletionFn):
+    def __init__(self, llm: str, chat_model_kwargs: Optional[dict] = None, **kwargs) -> None:
+        # Import and resolve self.llm to an instance of llm argument here,
+        # assuming it's always a subclass of BaseLLM
+        if chat_model_kwargs is None:
+            chat_model_kwargs = {}
+
+        self.llm = init_chat_model(llm, **chat_model_kwargs)
 
     def __call__(self, prompt, **kwargs) -> LangChainLLMCompletionResult:
         if is_chat_prompt(prompt):

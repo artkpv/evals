@@ -38,7 +38,13 @@ class LlamaCompletionFn(CompletionFn):
             prompt, tokenize=False, add_generation_prompt=True
         )
         tokenizer.pad_token = tokenizer.eos_token
-        batch = tokenizer(prompt, padding='max_length', truncation=True, max_length=None, return_tensors="pt")
+        batch = tokenizer(
+            prompt,
+            padding='max_length', 
+            truncation=True, 
+            max_length=None,
+            return_tensors="pt"
+        )
         batch = {k: v.to("cuda") for k, v in batch.items()}
         outputs = self._model.generate(
             **batch,
