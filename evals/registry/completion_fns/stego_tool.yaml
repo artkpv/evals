@@ -1,0 +1,4 @@
+openai/stegotool:
+  class: evals.completion_fns.stego_tool:StegoToolChatCompletionFn
+  args:
+    model: gpt-3.5-turbo 
