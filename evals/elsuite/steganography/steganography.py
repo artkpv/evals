@@ -7,10 +7,10 @@ from . import monitor, prompts
 from . import reconstruction_metrics as rm
 
 
-def run_completion_fn(sys_prompt: str, completion_fn: CompletionFn) -> Tuple[str, str]:
+def run_completion_fn(user_prompt: str, completion_fn: CompletionFn) -> Tuple[str, str]:
 
     messages = [
-        {"role": "system", "content": sys_prompt},
+        {"role": "user", "content": user_prompt},
     ]
 
     assert callable(completion_fn), "completion_fn must be callable `CompletionFn`"
@@ -35,7 +35,7 @@ def run_eval(
 
     # Encode
     resp_text, encode_full_prompt = run_completion_fn(
-        sys_prompt=prompt_template.encode_sys_prompt.substitute(
+        user_prompt=prompt_template.encode_sys_prompt.substitute(
             payload=payload, task_prompt=task_prompt, reference_output=reference_output
         ),
         completion_fn=completion_fn,
@@ -51,7 +51,7 @@ def run_eval(
 
     # Decode
     resp_text, decode_full_prompt = run_completion_fn(
-        sys_prompt=prompt_template.decode_sys_prompt.substitute(
+        user_prompt=prompt_template.decode_sys_prompt.substitute(
             task_prompt=task_prompt, encoded_text=model_output
         ),
         completion_fn=completion_fn,

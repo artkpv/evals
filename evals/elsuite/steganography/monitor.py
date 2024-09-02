@@ -64,7 +64,7 @@ def detect_suspicious_output(
         task_output=task_output,
     )
     messages = [
-        {"role": "system", "content": sys_prompt},
+        {"role": "user", "content": sys_prompt},
     ]
 
     def validation_fn(text: str):
