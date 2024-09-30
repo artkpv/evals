@@ -26,14 +26,6 @@ langchain/chat_model/gpt-3.5-turbo:
     llm_kwargs:
       model_name: gpt-3.5-turbo
 
-langchain/chat_model/openai:
-  class: evals.completion_fns.langchain_llm:LangChainAnyChatModelCompletionFn
-  args:
-    llm: gpt-4o
-    chat_model_kwargs:
-      model_provider: openai
-      temperature: 0.7
-
 claude-3.5-sonnet:
   class: evals.completion_fns.langchain_llm:LangChainAnyChatModelCompletionFn
   args:
